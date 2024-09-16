@@ -54,7 +54,9 @@ app.post("/signin", function(req, res) {
         })
     }
     console.log(users)
-})
+});
+
+
 
 function logger(req,res,next){
     console.log(`${req.method} request came`);
@@ -99,7 +101,12 @@ app.get("/me",auth, function(req, res) {
     }
 
 
-})
+});
+
+// whenever someone hits the endpoint localhost:3000, return the index.html file
+app.get("/",function(req,res){
+    res.sendFile(__dirname+"/public/index.html");
+});
 
 
 app.listen(3000);// that the http server is listening on port 3000
