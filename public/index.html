@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Website </title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
     <!--  axios are used to send the request to the backend  -->
 
     <script>
+
+        async function logout(){
+            localStorage.removeItem("token");
+        }
+
         async function signup(){
             const username = document.getElementById("signup-username").value;
             const password = document.getElementById("signup-password").value;
@@ -35,16 +40,30 @@
         }
     
         async function getUserInformation(){
-            const response = await axios.get("http://localhost:3000/me",{
-                headers:{
-                    token:localStorage.getItem("token")
-                }
-            });
+            const token = localStorage.getItem("token");
+
+            if(token){
+
+                const response = await axios.get("http://localhost:3000/me",{
+                    headers:{
+                        Authorization:token
+                    }
+                });
+            }
             document.getElementById("information").innerHTML = "Username : " + response.data.username + "Password: " + response.data.password;
+        
         }
 
+        
+        // the usersInformation is having an issue, that is why not calling it made the site work 
 
-        getUserInformation();
+        try{
+
+            getUserInformation();
+        }catch{
+            console.log("error in the getUserfunction()");
+        }
+         
     </script>
 </head>
 <body>
